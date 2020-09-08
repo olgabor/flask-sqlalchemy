@@ -25,13 +25,13 @@ def create_user(**form_kwargs):
 
 def update_user(id, name, email, bio): 
     user = User.query.get(id)
-    if user: 
-        user.name = name or user.name 
+    if user:
+        user.name = name or user.name
         user.email = email or user.email
-        user.bio = bio or user.bio 
+        user.bio = bio or user.bio
         db.session.commit()
         return jsonify(user.as_dict())
-    else: 
-        raise: Exception (f'No user at id {id}')
+    else:
+        raise Exception(f'No user at id {id}')
 
 

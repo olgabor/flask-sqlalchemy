@@ -1,6 +1,6 @@
 from models import app, User
 from flask import jsonify, request
-from crud.user_crud import get_all_users, get_user, create_user, update_user 
+from crud.user_crud import get_all_users, get_user, create_user, update_user
 
 
 @app.route('/')
@@ -25,9 +25,9 @@ def user_show_put_delete(id):
     if request.method == 'PUT': 
         return update_user(
                         id, 
-                        name=request.form[name], 
-                        email=request.form[email],
-                        bio=request.form[bio])
+                        name=request.form['name'], 
+                        email=request.form['email'],
+                        bio=request.form['bio'])
 
 #error handler 
 @app.errorhandler(Exception) 
