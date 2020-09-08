@@ -15,3 +15,23 @@ def get_user(id):
     else: 
         raise Exception(f'Error getting user at ID {id}')
 
+#create a user 
+def create_user(**form_kwargs): 
+    #new_user = User(name=name, email=email, bio=bio or None) # this is when passing name, email, bio as arguments in function 
+    new_user = User(**form_kwargs)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify(new_user.as_dict())
+
+def update_user(id, name, email, bio): 
+    user = User.query.get(id)
+    if user: 
+        user.name = name or user.name 
+        user.email = email or user.email
+        user.bio = bio or user.bio 
+        db.session.commit()
+        return jsonify(user.as_dict())
+    else: 
+        raise: Exception (f'No user at id {id}')
+
+

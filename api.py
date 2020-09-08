@@ -1,6 +1,7 @@
 from models import app, User
-from flask import jsonify
-from crud.user_crud import get_all_users, get_user 
+from flask import jsonify, request
+from crud.user_crud import get_all_users, get_user, create_user, update_user 
+
 
 @app.route('/')
 def home():
@@ -8,14 +9,25 @@ def home():
   print(f'🎀 {first_user}')
   return jsonify(user=first_user.as_dict())
 
-#Routes 
-@app.route('/users/')
+# User GET and POST Routes 
+@app.route('/users/', methods=['GET', 'POST'])
 def user_index_create(): 
-    return get_all_users()
+    if request.method == 'GET':
+        return get_all_users()
+    if request.method == 'POST': 
+        return create_user(**request.form)
 
-@app.route('/users/<int:id>')
+#user GET, PUT, and DELETE routes 
+@app.route('/users/<int:id>', methods=['GET', 'PUT'])
 def user_show_put_delete(id):
-    return get_user(id)
+    if request.method == 'GET':
+        return get_user(id)
+    if request.method == 'PUT': 
+        return update_user(
+                        id, 
+                        name=request.form[name], 
+                        email=request.form[email],
+                        bio=request.form[bio])
 
 #error handler 
 @app.errorhandler(Exception) 
